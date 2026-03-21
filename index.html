@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ahmet Karamese — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #c8a96e;
+      --text: #e8e8e8;
+      --muted: #666;
+      --overlay: rgba(0,0,0,0.92);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    nav { display: flex; align-items: center; gap: 32px; }
+    nav a, nav button.nav-modal-btn {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover, nav button.nav-modal-btn:hover { color: var(--accent); }
+    button.nav-modal-btn {
+      background: none;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 140px 48px 60px;
+      max-width: 900px;
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 480px;
+    }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      padding: 0 48px 40px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2px;
+      padding: 0 2px;
+    }
+
+    .card {
+      position: relative;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--surface);
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s;
+      filter: brightness(0.85);
+    }
+
+    .card:hover img {
+      transform: scale(1.06);
+      filter: brightness(1);
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.35s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+
+    .card:hover .card-overlay { opacity: 1; }
+
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.06em;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .card-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .card-count {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lb-backdrop {
+      position: fixed;
+      inset: 0;
+      background: var(--overlay);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(6px);
+    }
+    .lb-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lb-container {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 100vh;
+    }
+
+    .lb-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 16px;
+    }
+    .lb-title-wrap {}
+    .lb-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.06em;
+      color: #fff;
+    }
+    .lb-meta {
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .lb-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 40px; height: 40px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .lb-close:hover { border-color: #fff; color: #fff; }
+
+    .lb-main-img {
+      width: 100%;
+      max-height: 65vh;
+      object-fit: contain;
+      display: block;
+      border: 1px solid var(--border);
+    }
+
+    .lb-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
+      color: #fff;
+      width: 44px; height: 56px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    .lb-nav-btn:hover { background: rgba(200,169,110,0.3); border-color: var(--accent); }
+    .lb-prev { left: 32px; }
+    .lb-next { right: 32px; }
+    .lb-nav-btn:disabled { opacity: 0.2; cursor: default; }
+    .lb-nav-btn:disabled:hover { background: rgba(0,0,0,0.5); border-color: var(--border); }
+
+    .lb-thumbs {
+      display: flex;
+      gap: 8px;
+      padding: 12px 0 20px;
+      overflow-x: auto;
+      width: 100%;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .lb-thumb {
+      width: 80px;
+      height: 52px;
+      object-fit: cover;
+      flex-shrink: 0;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, opacity 0.2s;
+      opacity: 0.55;
+    }
+    .lb-thumb.active { border-color: var(--accent); opacity: 1; }
+    .lb-thumb:hover { opacity: 0.85; }
+
+    .lb-counter {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      padding-bottom: 8px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 80px;
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: gap;
+    }
+    .footer-left {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── LANG SWITCHER ── */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-left: 24px;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn.active { background: var(--accent); color: #0d0d0d; font-weight: 500; }
+    .lang-btn:not(.active):hover { color: var(--accent); }
+    .lang-divider { width: 1px; height: 16px; background: var(--border); }
+
+    /* ── MODALS ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.96);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      width: 90%;
+      max-width: 1000px;
+      max-height: 88vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+      transform: translateY(24px);
+      transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .modal-backdrop.open .modal-panel {
+      transform: translateY(0);
+    }
+    .modal-panel--narrow { max-width: 520px; }
+
+    .modal-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 1;
+    }
+    .modal-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .modal-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 36px; height: 36px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { border-color: #fff; color: #fff; }
+
+    .modal-body {
+      padding: 40px 28px 48px;
+    }
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .modal-title em { font-style: normal; color: var(--accent); }
+    .modal-bio {
+      color: #999;
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+
+    .modal-about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .modal-about-grid { grid-template-columns: 1fr; gap: 36px; }
+    }
+
+    /* Contact links */
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); background: rgba(200,169,110,0.05); }
+    .contact-link-icon {
+      font-size: 1.1rem;
+      color: var(--accent);
+      width: 28px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .contact-link-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .contact-link-val {
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .lb-thumb.lb-thumb-video {
+      width: 80px;
+      height: 52px;
+      background: #1a1a1a;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1.2rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.2s, opacity 0.2s;
+      opacity: 0.55;
+    }
+    .lb-thumb.lb-thumb-video.active { border-color: var(--accent); opacity: 1; }
+    .lb-thumb.lb-thumb-video:hover { opacity: 0.85; }
+
+    /* ── ABOUT styles kept for featured/skills inside modal ── */
+    .featured-project {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 28px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-project::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+    }
+    .featured-badge {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .featured-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .featured-desc {
+      color: #888;
+      font-size: 0.82rem;
+      line-height: 1.75;
+    }
+    .featured-desc ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .featured-desc ul li {
+      padding-left: 18px;
+      position: relative;
+      color: #888;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+    .featured-desc ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.72rem;
+    }
+
+    /* Skills grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .skill-group {
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+      background: var(--surface);
+    }
+    .skill-group-title {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .skill-tag {
+      font-size: 0.7rem;
+      color: #aaa;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      padding: 3px 9px;
+      border-radius: 1px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      header { padding: 0 20px; }
+      nav { gap: 16px; }
+      .hero { padding: 110px 20px 40px; }
+      .filter-bar { padding: 0 20px 32px; }
+      .grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 32px 20px; flex-direction: column; gap: 20px; }
+      .lb-prev { left: 8px; }
+      .lb-next { right: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#">Ahmet<span>.</span>K</a>
+  <nav>
+    <a href="#" id="nav-work" data-i18n="nav_work">Work</a>
+    <button class="nav-modal-btn" data-modal="about" data-i18n="nav_about">About</button>
+    <a href="https://www.artstation.com/ahmetkaramese" target="_blank" rel="noopener">ArtStation</a>
+    <button class="nav-modal-btn" data-modal="contact" data-i18n="nav_contact">Contact</button>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btn-en">EN</button>
+      <div class="lang-divider"></div>
+      <button class="lang-btn" id="btn-tr">TR</button>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-label" data-i18n="hero_label">3D Artist & Game Dev</p>
+  <h1>Ahmet<br><em>Karamese</em></h1>
+  <p data-i18n="hero_desc">3D art, environment design and character work. I combine storytelling with visual atmosphere in every project.</p>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filter-bar">
+  <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+  <button class="filter-btn" data-filter="environment" data-i18n="filter_environment">Environment</button>
+  <button class="filter-btn" data-filter="prop" data-i18n="filter_prop">Prop</button>
+  <button class="filter-btn" data-filter="sculpture" data-i18n="filter_sculpture">Sculpture</button>
+  <button class="filter-btn" data-filter="vehicle" data-i18n="filter_vehicle">Vehicle</button>
+</div>
+
+<!-- GRID -->
+<main id="work">
+  <div class="grid" id="portfolio-grid">
+    <!-- JS ile doldurulacak -->
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2026 Ahmet Karamese</div>
+  <div class="footer-links">
+    <a href="https://www.artstation.com/ahmetkaramese" target="_blank">ArtStation</a>
+    <a href="/cdn-cgi/l/email-protection#ea8bc4818b988b878f998faa82859e878b8386c4898587">Email</a>
+    <a href="https://www.instagram.com/karamese.0" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<!-- MODAL: ABOUT -->
+<div class="modal-backdrop" id="modal-about">
+  <div class="modal-panel">
+    <div class="modal-topbar">
+      <span class="modal-label" data-i18n="about_label">About Me</span>
+      <button class="modal-close" data-close="about">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-about-grid">
+        <div class="modal-about-left">
+          <h2 class="modal-title">3D <em>Artist</em><br>& Game Dev</h2>
+          <p class="modal-bio" data-i18n="about_bio">Hi, I'm Ahmet Karameşe — a 3D Generalist and game developer who bridges software and design. I blend my passion for visualization with technical skills, focusing on interactive worlds and high-quality vehicle models. My core expertise lies in hard surface modeling, environments and props.</p>
+        </div>
+        <div class="modal-about-right">
+          <div class="featured-project">
+            <div class="featured-badge" data-i18n="featured_badge">▶ Active Project</div>
+            <div class="featured-title">Mad Wheels</div>
+            <div class="featured-desc">
+              <span data-i18n="featured_intro">Currently developing with Unreal Engine 5:</span>
+              <ul>
+                <li data-i18n="feat_1">Realistic vehicle physics simulations with the Chaos Vehicles system</li>
+                <li data-i18n="feat_2">C++ based gameplay mechanics</li>
+                <li data-i18n="feat_3">Game-ready low-poly & high-detail vehicle modeling with Blender and Substance Painter</li>
+              </ul>
+            </div>
+          </div>
+          <div class="skills-grid">
+            <div class="skill-group">
+              <div class="skill-group-title" data-i18n="skill_software">Software</div>
+              <div class="skill-tags">
+                <span class="skill-tag">Unreal Engine 5</span>
+                <span class="skill-tag">C++</span>
+                <span class="skill-tag">Blueprints</span>
+                <span class="skill-tag">Chaos Physics</span>
+              </div>
+            </div>
+            <div class="skill-group">
+              <div class="skill-group-title" data-i18n="skill_3d">3D & Design</div>
+              <div class="skill-tags">
+                <span class="skill-tag">Blender</span>
+                <span class="skill-tag">Substance Painter</span>
+                <span class="skill-tag">PBR Workflow</span>
+              </div>
+            </div>
+            <div class="skill-group" style="grid-column:1/-1">
+              <div class="skill-group-title" data-i18n="skill_focus">Focus Areas</div>
+              <div class="skill-tags">
+                <span class="skill-tag" data-i18n="skill_vehicles">Vehicle Modeling</span>
+                <span class="skill-tag" data-i18n="skill_env">Environment Design</span>
+                <span class="skill-tag" data-i18n="skill_hard">Hard Surface</span>
+                <span class="skill-tag" data-i18n="skill_level">Level Design</span>
+                <span class="skill-tag" data-i18n="skill_opt">Optimization</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CONTACT -->
+<div class="modal-backdrop" id="modal-contact">
+  <div class="modal-panel modal-panel--narrow">
+    <div class="modal-topbar">
+      <span class="modal-label" data-i18n="nav_contact">Contact</span>
+      <button class="modal-close" data-close="contact">✕</button>
+    </div>
+    <div class="modal-body">
+      <h2 class="modal-title" data-i18n="contact_heading">Let's <em>Work</em><br>Together</h2>
+      <p class="modal-bio" style="margin-bottom:32px" data-i18n="contact_desc">Open for freelance projects, collaborations and full-time opportunities.</p>
+      <div class="contact-links">
+        <a href="/cdn-cgi/l/email-protection#80e1aeebe1f2e1ede5f3e5c0e8eff4ede1e9ecaee3efed" class="contact-link">
+          <span class="contact-link-icon">✉</span>
+          <div>
+            <div class="contact-link-label" data-i18n="contact_email_label">Email</div>
+            <div class="contact-link-val"><span class="__cf_email__" data-cfemail="8feea1e4eefdeee2eafceacfe7e0fbe2eee6e3a1ece0e2">[email&#160;protected]</span></div>
+          </div>
+        </a>
+        <a href="tel:+905079574220" class="contact-link">
+          <span class="contact-link-icon">✆</span>
+          <div>
+            <div class="contact-link-label" data-i18n="contact_phone_label">Phone</div>
+            <div class="contact-link-val">+90 507 957 42 20</div>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/karamese.0" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <span class="contact-link-icon">◈</span>
+          <div>
+            <div class="contact-link-label">Instagram</div>
+            <div class="contact-link-val">@karamese.0</div>
+          </div>
+        </a>
+        <a href="https://www.artstation.com/ahmetkaramese" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <span class="contact-link-icon">⬡</span>
+          <div>
+            <div class="contact-link-label">ArtStation</div>
+            <div class="contact-link-val">ahmetkaramese</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb-backdrop" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lb-container">
+    <div class="lb-header">
+      <div class="lb-title-wrap">
+        <div class="lb-title" id="lb-title">Project Name</div>
+        <div class="lb-meta" id="lb-meta">Category · Year</div>
+      </div>
+      <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+    </div>
+
+    <div style="position:relative; width:100%">
+      <img class="lb-main-img" id="lb-main-img" src="" alt="">
+      <button class="lb-nav-btn lb-prev" id="lb-prev">&#8592;</button>
+      <button class="lb-nav-btn lb-next" id="lb-next">&#8594;</button>
+    </div>
+
+    <div class="lb-counter" id="lb-counter">1 / 1</div>
+    <div class="lb-thumbs" id="lb-thumbs"></div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── i18n ──
+const i18n = {
+  en: {
+    nav_work: 'Work',
+    nav_about: 'About',
+    nav_contact: 'Contact',
+    hero_label: '3D Artist & Game Dev',
+    hero_desc: "Every polygon has a purpose. I obsess over the details that make a surface feel real — the wear, the weight, the light catching an edge just right.",
+    filter_all: 'All',
+    filter_environment: 'Environment',
+    filter_prop: 'Prop',
+    filter_sculpture: 'Sculpture',
+    filter_vehicle: 'Vehicle',
+    lb_close: 'Close',
+    contact_heading: "Let's Work Together",
+    contact_desc: 'Open for freelance projects, collaborations and full-time opportunities.',
+    contact_email_label: 'Email',
+    contact_phone_label: 'Phone',
+    imgs_suffix: 'imgs',
+    about_label: 'About Me',
+    about_heading: '3D Artist\n& Game Dev',
+    about_bio: "I'm Ahmet Karameşe — a 3D artist and game developer with a hard surface obsession. I don't just model objects; I engineer surfaces that carry weight, history and light. From high-detail vehicle art to interactive environments in Unreal Engine 5, my work sits at the intersection of technical precision and raw visual impact.",
+    featured_badge: '▶ Active Project',
+    featured_intro: 'Currently developing with Unreal Engine 5:',
+    feat_1: 'Realistic vehicle physics simulations with the Chaos Vehicles system',
+    feat_2: 'C++ based gameplay mechanics',
+    feat_3: 'Game-ready low-poly & high-detail vehicle modeling with Blender and Substance Painter',
+    skill_software: 'Software',
+    skill_3d: '3D & Design',
+    skill_focus: 'Focus Areas',
+    skill_vehicles: 'Vehicle Modeling',
+    skill_env: 'Environment Design',
+    skill_hard: 'Hard Surface',
+    skill_level: 'Level Design',
+    skill_opt: 'Optimization'
+  },
+  tr: {
+    nav_work: 'Çalışmalar',
+    nav_about: 'Hakkımda',
+    nav_contact: 'İletişim',
+    hero_label: '3D Artist & Game Dev',
+    hero_desc: 'Her poligonun bir amacı vardır. Bir yüzeyi gerçek hissettiren detaylara takıntılıyım — aşınma, ağırlık, bir kenardan yansıyan ışık.',
+    filter_all: 'Tümü',
+    filter_environment: 'Environment',
+    filter_prop: 'Prop',
+    filter_sculpture: 'Heykel',
+    filter_vehicle: 'Araç',
+    lb_close: 'Kapat',
+    imgs_suffix: 'görsel',
+    about_label: 'Hakkımda',
+    about_heading: '3D Artist\n& Game Dev',
+    about_bio: "Ben Ahmet Karameşe — hard surface takıntısı olan bir 3D artist ve oyun geliştiricisiyim. Nesne modellemiyorum; ağırlık, tarih ve ışık taşıyan yüzeyler inşa ediyorum. Yüksek detaylı araç sanatından Unreal Engine 5'teki interaktif ortamlara kadar, çalışmalarım teknik hassasiyet ile ham görsel etki arasındaki noktada duruyor.",
+    featured_badge: '▶ Aktif Proje',
+    featured_intro: 'Şu an Unreal Engine 5 ile geliştiriyorum:',
+    feat_1: 'Chaos Vehicles sistemi ile gerçekçi araç fiziği simülasyonları',
+    feat_2: 'C++ tabanlı oyun mekanikleri',
+    feat_3: 'Blender ve Substance Painter ile game-ready düşük poligonlu araç modellemeleri',
+    skill_software: 'Yazılım',
+    skill_3d: '3D & Tasarım',
+    skill_focus: 'Uzmanlık Alanları',
+    skill_vehicles: 'Araç Modelleme',
+    skill_env: 'Çevre Tasarımı',
+    skill_hard: 'Hard Surface',
+    skill_level: 'Level Design',
+    skill_opt: 'Optimizasyon',
+    contact_heading: 'Birlikte Çalışalım',
+    contact_desc: 'Freelance projeler, iş birlikleri ve tam zamanlı fırsatlara açığım.',
+    contact_email_label: 'E-posta',
+    contact_phone_label: 'Telefon'
+  }
+};
+
+let lang = 'en';
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  document.getElementById('btn-tr').classList.toggle('active', l === 'tr');
+  const lbClose = document.getElementById('lb-close');
+  if (lbClose) lbClose.setAttribute('aria-label', i18n[l].lb_close);
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (!i18n[l][key]) return;
+    // Don't overwrite elements that contain child HTML elements (e.g. <em>, <br>)
+    if (el.children.length > 0) return;
+    el.textContent = i18n[l][key];
+  });
+
+  // re-render grid so img count badge updates with correct suffix
+  renderGrid(currentFilter);
+}
+
+// ──────────────────────────────────────────────
+//  PROJECTS — loaded from projects.json
+// ──────────────────────────────────────────────
+let projects = [];
+let currentFilter = 'all';
+
+async function loadProjects() {
+  try {
+    const res = await fetch('projects.json');
+    const data = await res.json();
+
+    projects = data.map((p, i) => {
+      const base = `projects/${p.folder}`;
+      const images = [];
+      for (let n = 1; n <= p.images; n++) images.push(`${base}/${n}.webp`);
+      if (p.videos) {
+        for (let n = 1; n <= p.videos; n++) images.push(`${base}/${n}.mp4`);
+      }
+      return {
+        id: i + 1,
+        title: p.title,
+        category: p.category,
+        year: String(p.year),
+        cover: `${base}/cover.webp`,
+        images
+      };
+    });
+
+    renderGrid('all');
+    setLang(lang);
+  } catch (err) {
+    console.error('projects.json yüklenemedi:', err);
+  }
+}
+
+function renderGrid(filter) {
+  const grid = document.getElementById('portfolio-grid');
+  const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="card" data-id="${p.id}">
+      <img src="${p.cover}" alt="${p.title}" loading="lazy">
+      <div class="card-overlay">
+        <div class="card-title">${p.title}</div>
+        <div class="card-tag">${p.category} · ${p.year}</div>
+      </div>
+      ${p.images.length > 1 ? `<div class="card-count">${p.images.length} ${i18n[lang].imgs_suffix}</div>` : ''}
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => openLightbox(parseInt(card.dataset.id)));
+  });
+}
+
+// ── FILTER ──
+document.getElementById('filter-bar').querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderGrid(currentFilter);
+  });
+});
+
+// ── LIGHTBOX ──
+let lbProject = null;
+let lbIndex = 0;
+
+function openLightbox(id) {
+  lbProject = projects.find(p => p.id === id);
+  lbIndex = 0;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function updateLightbox() {
+  const src = lbProject.images[lbIndex];
+  const isVideo = src.endsWith('.mp4');
+  const mediaEl = document.getElementById('lb-main-img');
+
+  if (isVideo) {
+    mediaEl.outerHTML = `<video id="lb-main-img" class="lb-main-img" src="${src}" controls autoplay loop style="max-height:65vh;width:100%"></video>`;
+  } else {
+    const el = document.getElementById('lb-main-img');
+    if (el.tagName === 'VIDEO') {
+      el.outerHTML = `<img id="lb-main-img" class="lb-main-img" src="${src}" alt="${lbProject.title}">`;
+    } else {
+      el.src = src;
+      el.alt = lbProject.title;
+    }
+  }
+
+  document.getElementById('lb-title').textContent = lbProject.title;
+  document.getElementById('lb-meta').textContent = `${lbProject.category} · ${lbProject.year}`;
+  document.getElementById('lb-counter').textContent = `${lbIndex + 1} / ${lbProject.images.length}`;
+
+  // thumbs
+  const thumbsEl = document.getElementById('lb-thumbs');
+  thumbsEl.innerHTML = lbProject.images.map((s, i) => {
+    const isVid = s.endsWith('.mp4');
+    return isVid
+      ? `<div class="lb-thumb lb-thumb-video ${i === lbIndex ? 'active' : ''}" data-i="${i}">▶</div>`
+      : `<img class="lb-thumb ${i === lbIndex ? 'active' : ''}" src="${s}" data-i="${i}" alt="">`;
+  }).join('');
+  thumbsEl.querySelectorAll('.lb-thumb').forEach(t => {
+    t.addEventListener('click', () => { lbIndex = parseInt(t.dataset.i); updateLightbox(); });
+  });
+
+  // nav buttons
+  document.getElementById('lb-prev').disabled = lbIndex === 0;
+  document.getElementById('lb-next').disabled = lbIndex === lbProject.images.length - 1;
+}
+
+document.getElementById('lb-close').addEventListener('click', closeLightbox);
+document.getElementById('lb-prev').addEventListener('click', () => { if(lbIndex > 0) { lbIndex--; updateLightbox(); } });
+document.getElementById('lb-next').addEventListener('click', () => { if(lbIndex < lbProject.images.length - 1) { lbIndex++; updateLightbox(); } });
+
+// backdrop click to close
+document.getElementById('lightbox').addEventListener('click', e => {
+  if(e.target === document.getElementById('lightbox')) closeLightbox();
+});
+
+// keyboard navigation
+document.addEventListener('keydown', e => {
+  if(!document.getElementById('lightbox').classList.contains('open')) return;
+  if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'ArrowLeft' && lbIndex > 0) { lbIndex--; updateLightbox(); }
+  if(e.key === 'ArrowRight' && lbIndex < lbProject.images.length - 1) { lbIndex++; updateLightbox(); }
+});
+
+// ── MODAL SYSTEM ──
+function openModal(name) {
+  document.getElementById('modal-' + name).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(name) {
+  document.getElementById('modal-' + name).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Open via nav data-modal buttons
+document.querySelectorAll('[data-modal]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    openModal(el.dataset.modal);
+  });
+});
+
+// Close via X buttons
+document.querySelectorAll('[data-close]').forEach(btn => {
+  btn.addEventListener('click', () => closeModal(btn.dataset.close));
+});
+
+// Close on backdrop click
+document.querySelectorAll('.modal-backdrop').forEach(bd => {
+  bd.addEventListener('click', e => {
+    if (e.target === bd) closeModal(bd.id.replace('modal-', ''));
+  });
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-backdrop.open').forEach(bd => {
+      closeModal(bd.id.replace('modal-', ''));
+    });
+  }
+});
+
+// ── NAV SMOOTH SCROLL ──
+document.getElementById('nav-work').addEventListener('click', e => {
+  e.preventDefault();
+  document.getElementById('work').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.querySelector('.logo').addEventListener('click', e => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ── INIT ──
+document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
+document.getElementById('btn-tr').addEventListener('click', () => setLang('tr'));
+setLang('en');
+loadProjects();
+</script>
+</body>
+</html>
