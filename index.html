@@ -743,7 +743,7 @@
           <span class="contact-link-icon">✉</span>
           <div>
             <div class="contact-link-label" data-i18n="contact_email_label">Email</div>
-            <div class="contact-link-val" id="email-val"><span class="__cf_email__" data-cfemail="a1c08fcac0d3c0ccc4d2c4e1c9ced5ccc0c8cd8fc2cecc">[email&#160;protected]</span></div>
+            <div class="contact-link-val" id="email-val">a.karamese@hotmail.com</div>
           </div>
         </a>
         <a href="tel:+905079574220" class="contact-link">
@@ -794,7 +794,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── i18n ──
 const i18n = {
   en: {
@@ -906,19 +906,18 @@ async function loadProjects() {
       if (p.videos) {
         for (let n = 1; n <= p.videos; n++) images.push(`${base}/${n}.mp4`);
       }
-      const allImages = [`${base}/cover`, ...images];
       return {
         id: i + 1,
         title: p.title,
         category: p.category,
         year: String(p.year),
         cover: `${base}/cover`,
-        images: allImages
+        images
       };
     });
 
     renderGrid('all');
-    setLang(lang);  // re-apply current lang after projects load
+    setLang(lang);
   } catch (err) {
     console.error('projects.json yüklenemedi:', err);
   }
@@ -1100,4 +1099,10 @@ document.querySelector('.logo').addEventListener('click', e => {
 })();
 
 // ── INIT ──
-document.getElem
+document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
+document.getElementById('btn-tr').addEventListener('click', () => setLang('tr'));
+setLang('en');
+loadProjects();
+</script>
+</body>
+</html>
