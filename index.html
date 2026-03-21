@@ -924,13 +924,13 @@ async function loadProjects() {
 }
 
 function imgSrc(path) {
-  // path has no extension — try webp, fallback to jpg
   return `${path}.webp`;
 }
 
 function imgFallback(el, path) {
+  if (el.src.endsWith('.webp')) { el.src = `${path}.jpg`; return; }
+  if (el.src.endsWith('.jpg'))  { el.src = `${path}.png`; return; }
   el.onerror = null;
-  el.src = `${path}.jpg`;
 }
 
 function renderGrid(filter) {
@@ -990,10 +990,12 @@ function updateLightbox() {
   } else {
     const webpSrc = `${src}.webp`;
     const jpgSrc  = `${src}.jpg`;
+    const pngSrc  = `${src}.png`;
+    const fallbackChain = `this.onerror=function(){this.onerror=null;this.src='${pngSrc}'};this.src='${jpgSrc}'`;
     if (mediaEl.tagName === 'VIDEO') {
-      mediaEl.outerHTML = `<img id="lb-main-img" class="lb-main-img" src="${webpSrc}" alt="${lbProject.title}" onerror="this.onerror=null;this.src='${jpgSrc}'">`;
+      mediaEl.outerHTML = `<img id="lb-main-img" class="lb-main-img" src="${webpSrc}" alt="${lbProject.title}" onerror="${fallbackChain}">`;
     } else {
-      mediaEl.onerror = function(){ this.onerror=null; this.src=jpgSrc; };
+      mediaEl.onerror = function(){ this.onerror = function(){ this.onerror=null; this.src=pngSrc; }; this.src=jpgSrc; };
       mediaEl.src = webpSrc;
       mediaEl.alt = lbProject.title;
     }
@@ -1009,7 +1011,7 @@ function updateLightbox() {
     const isVid = s.endsWith('.mp4');
     return isVid
       ? `<div class="lb-thumb lb-thumb-video ${i === lbIndex ? 'active' : ''}" data-i="${i}">▶</div>`
-      : `<img class="lb-thumb ${i === lbIndex ? 'active' : ''}" src="${s}.webp" data-i="${i}" alt="" onerror="this.onerror=null;this.src='${s}.jpg'">`;
+      : `<img class="lb-thumb ${i === lbIndex ? 'active' : ''}" src="${s}.webp" data-i="${i}" alt="" onerror="if(this.src.endsWith('.webp')){this.src='${s}.jpg'}else if(this.src.endsWith('.jpg')){this.onerror=null;this.src='${s}.png'}">`;
   }).join('');
   thumbsEl.querySelectorAll('.lb-thumb').forEach(t => {
     t.addEventListener('click', () => { lbIndex = parseInt(t.dataset.i); updateLightbox(); });
