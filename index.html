@@ -739,11 +739,11 @@
       <h2 class="modal-title" data-i18n="contact_heading">Let's <em>Work</em><br>Together</h2>
       <p class="modal-bio" style="margin-bottom:32px" data-i18n="contact_desc">Open for freelance projects, collaborations and full-time opportunities.</p>
       <div class="contact-links">
-        <a href="/cdn-cgi/l/email-protection#80e1aeebe1f2e1ede5f3e5c0e8eff4ede1e9ecaee3efed" class="contact-link">
+        <a href="#" class="contact-link" id="email-link">
           <span class="contact-link-icon">✉</span>
           <div>
             <div class="contact-link-label" data-i18n="contact_email_label">Email</div>
-            <div class="contact-link-val"><span class="__cf_email__" data-cfemail="8feea1e4eefdeee2eafceacfe7e0fbe2eee6e3a1ece0e2">[email&#160;protected]</span></div>
+            <div class="contact-link-val" id="email-val">a.karamese@hotmail.com</div>
           </div>
         </a>
         <a href="tel:+905079574220" class="contact-link">
@@ -1087,6 +1087,16 @@ document.querySelector('.logo').addEventListener('click', e => {
   e.preventDefault();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+// ── EMAIL (bypass GitHub Pages protection) ──
+(function() {
+  const u = 'a.karamese', d = 'hotmail.com';
+  const el = document.getElementById('email-link');
+  if (el) {
+    el.href = 'mailto:' + u + '@' + d;
+    document.getElementById('email-val').textContent = u + '@' + d;
+  }
+})();
 
 // ── INIT ──
 document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
