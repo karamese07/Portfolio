@@ -902,7 +902,7 @@ async function loadProjects() {
     projects = data.map((p, i) => {
       const base = `projects/${p.folder}`;
       const images = [];
-      for (let n = 1; n <= p.images; n++) images.push(`${base}/${n}.webp`);
+      for (let n = 1; n <= p.images; n++) images.push(`${base}/${n}`);
       if (p.videos) {
         for (let n = 1; n <= p.videos; n++) images.push(`${base}/${n}.mp4`);
       }
@@ -911,7 +911,7 @@ async function loadProjects() {
         title: p.title,
         category: p.category,
         year: String(p.year),
-        cover: `${base}/cover.webp`,
+        cover: `${base}/cover`,
         images
       };
     });
@@ -923,13 +923,23 @@ async function loadProjects() {
   }
 }
 
+function imgSrc(path) {
+  // path has no extension — try webp, fallback to jpg
+  return `${path}.webp`;
+}
+
+function imgFallback(el, path) {
+  el.onerror = null;
+  el.src = `${path}.jpg`;
+}
+
 function renderGrid(filter) {
   const grid = document.getElementById('portfolio-grid');
   const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
 
   grid.innerHTML = filtered.map(p => `
     <div class="card" data-id="${p.id}">
-      <img src="${p.cover}" alt="${p.title}" loading="lazy">
+      <img src="${imgSrc(p.cover)}" alt="${p.title}" loading="lazy" onerror="imgFallback(this,'${p.cover}')">
       <div class="card-overlay">
         <div class="card-title">${p.title}</div>
         <div class="card-tag">${p.category} · ${p.year}</div>
@@ -978,12 +988,14 @@ function updateLightbox() {
   if (isVideo) {
     mediaEl.outerHTML = `<video id="lb-main-img" class="lb-main-img" src="${src}" controls autoplay loop style="max-height:65vh;width:100%"></video>`;
   } else {
-    const el = document.getElementById('lb-main-img');
-    if (el.tagName === 'VIDEO') {
-      el.outerHTML = `<img id="lb-main-img" class="lb-main-img" src="${src}" alt="${lbProject.title}">`;
+    const webpSrc = `${src}.webp`;
+    const jpgSrc  = `${src}.jpg`;
+    if (mediaEl.tagName === 'VIDEO') {
+      mediaEl.outerHTML = `<img id="lb-main-img" class="lb-main-img" src="${webpSrc}" alt="${lbProject.title}" onerror="this.onerror=null;this.src='${jpgSrc}'">`;
     } else {
-      el.src = src;
-      el.alt = lbProject.title;
+      mediaEl.onerror = function(){ this.onerror=null; this.src=jpgSrc; };
+      mediaEl.src = webpSrc;
+      mediaEl.alt = lbProject.title;
     }
   }
 
@@ -997,13 +1009,12 @@ function updateLightbox() {
     const isVid = s.endsWith('.mp4');
     return isVid
       ? `<div class="lb-thumb lb-thumb-video ${i === lbIndex ? 'active' : ''}" data-i="${i}">▶</div>`
-      : `<img class="lb-thumb ${i === lbIndex ? 'active' : ''}" src="${s}" data-i="${i}" alt="">`;
+      : `<img class="lb-thumb ${i === lbIndex ? 'active' : ''}" src="${s}.webp" data-i="${i}" alt="" onerror="this.onerror=null;this.src='${s}.jpg'">`;
   }).join('');
   thumbsEl.querySelectorAll('.lb-thumb').forEach(t => {
     t.addEventListener('click', () => { lbIndex = parseInt(t.dataset.i); updateLightbox(); });
   });
 
-  // nav buttons
   document.getElementById('lb-prev').disabled = lbIndex === 0;
   document.getElementById('lb-next').disabled = lbIndex === lbProject.images.length - 1;
 }
