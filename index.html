@@ -603,10 +603,65 @@
       letter-spacing: 0.04em;
     }
 
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(13,13,13,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      padding: 20px 24px;
+      gap: 4px;
+      z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a, .mobile-menu button.nav-modal-btn {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      background: none;
+      border-left: none;
+      border-right: none;
+      border-top: none;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      text-align: left;
+      transition: color 0.2s;
+      width: 100%;
+    }
+    .mobile-menu a:hover, .mobile-menu button.nav-modal-btn:hover { color: var(--accent); }
+
     /* ── MOBILE ── */
     @media (max-width: 640px) {
       header { padding: 0 20px; }
-      nav { gap: 16px; }
+      nav .nav-links { display: none; }
+      .hamburger { display: flex; }
       .hero { padding: 110px 20px 40px; }
       .filter-bar { padding: 0 20px 32px; }
       .grid { grid-template-columns: 1fr 1fr; }
@@ -622,17 +677,30 @@
 <header>
   <a class="logo" href="#">Ahmet<span>.</span>K</a>
   <nav>
-    <a href="#" id="nav-work" data-i18n="nav_work">Work</a>
-    <button class="nav-modal-btn" data-modal="about" data-i18n="nav_about">About</button>
-    <a href="https://www.artstation.com/ahmetkaramese" target="_blank" rel="noopener">ArtStation</a>
-    <button class="nav-modal-btn" data-modal="contact" data-i18n="nav_contact">Contact</button>
+    <div class="nav-links">
+      <a href="#" id="nav-work" data-i18n="nav_work">Work</a>
+      <button class="nav-modal-btn" data-modal="about" data-i18n="nav_about">About</button>
+      <a href="https://www.artstation.com/ahmetkaramese" target="_blank" rel="noopener">ArtStation</a>
+      <button class="nav-modal-btn" data-modal="contact" data-i18n="nav_contact">Contact</button>
+    </div>
     <div class="lang-switcher">
       <button class="lang-btn active" id="btn-en">EN</button>
       <div class="lang-divider"></div>
       <button class="lang-btn" id="btn-tr">TR</button>
     </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 </header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#" id="mob-work" data-i18n="nav_work">Work</a>
+  <button class="nav-modal-btn" data-modal="about" data-i18n="nav_about">About</button>
+  <a href="https://www.artstation.com/ahmetkaramese" target="_blank" rel="noopener">ArtStation</a>
+  <button class="nav-modal-btn" data-modal="contact" data-i18n="nav_contact">Contact</button>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -678,7 +746,7 @@
       <div class="modal-about-grid">
         <div class="modal-about-left">
           <h2 class="modal-title">3D <em>Artist</em><br>& Game Dev</h2>
-          <p class="modal-bio" data-i18n="about_bio">Hi, I'm Ahmet Karameşe — a 3D Generalist and game developer who bridges software and design. I blend my passion for visualization with technical skills, focusing on interactive worlds and high-quality vehicle models. My core expertise lies in hard surface modeling, environments and props.</p>
+          <p class="modal-bio" data-i18n="about_bio">Hi, I'm Ahmet Karameşe, a 3D Generalist and game developer who bridges software and design. I blend my passion for visualization with technical skills, focusing on interactive worlds and high-quality vehicle models. My core expertise lies in hard surface modeling, environments and props.</p>
         </div>
         <div class="modal-about-right">
           <div class="featured-project">
@@ -743,7 +811,7 @@
           <span class="contact-link-icon">✉</span>
           <div>
             <div class="contact-link-label" data-i18n="contact_email_label">Email</div>
-            <div class="contact-link-val" id="email-val">a.karamese@hotmail.com</div>
+            <div class="contact-link-val" id="email-val"><span class="__cf_email__" data-cfemail="d1b0ffbab0a3b0bcb4a2b491b9bea5bcb0b8bdffb2bebc">[email&#160;protected]</span></div>
           </div>
         </a>
         <a href="tel:+905079574220" class="contact-link">
@@ -794,7 +862,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── i18n ──
 const i18n = {
   en: {
@@ -802,7 +870,7 @@ const i18n = {
     nav_about: 'About',
     nav_contact: 'Contact',
     hero_label: '3D Artist & Game Dev',
-    hero_desc: "Every polygon has a purpose. I obsess over the details that make a surface feel real — the wear, the weight, the light catching an edge just right.",
+    hero_desc: "Every polygon has a purpose. I obsess over the details that make a surface feel real. The wear, the weight, the light catching an edge just right.",
     filter_all: 'All',
     filter_environment: 'Environment',
     filter_prop: 'Prop',
@@ -816,7 +884,7 @@ const i18n = {
     imgs_suffix: 'imgs',
     about_label: 'About Me',
     about_heading: '3D Artist\n& Game Dev',
-    about_bio: "I'm Ahmet Karameşe — a 3D artist and game developer with a hard surface obsession. I don't just model objects; I engineer surfaces that carry weight, history and light. From high-detail vehicle art to interactive environments in Unreal Engine 5, my work sits at the intersection of technical precision and raw visual impact.",
+    about_bio: "I'm Ahmet Karameşe, a 3D artist and game developer with a hard surface obsession. I don't just model objects; I engineer surfaces that carry weight, history and light. From high-detail vehicle art to interactive environments in Unreal Engine 5, my work sits at the intersection of technical precision and raw visual impact.",
     featured_badge: '▶ Active Project',
     featured_intro: 'Currently developing with Unreal Engine 5:',
     feat_1: 'Realistic vehicle physics simulations with the Chaos Vehicles system',
@@ -836,7 +904,7 @@ const i18n = {
     nav_about: 'Hakkımda',
     nav_contact: 'İletişim',
     hero_label: '3D Artist & Game Dev',
-    hero_desc: 'Her poligonun bir amacı vardır. Bir yüzeyi gerçek hissettiren detaylara takıntılıyım — aşınma, ağırlık, bir kenardan yansıyan ışık.',
+    hero_desc: 'Her poligonun bir amacı vardır. Bir yüzeyi gerçek hissettiren detaylara takıntılıyım: aşınma, ağırlık, bir kenardan yansıyan ışık.',
     filter_all: 'Tümü',
     filter_environment: 'Environment',
     filter_prop: 'Prop',
@@ -846,7 +914,7 @@ const i18n = {
     imgs_suffix: 'görsel',
     about_label: 'Hakkımda',
     about_heading: '3D Artist\n& Game Dev',
-    about_bio: "Ben Ahmet Karameşe — hard surface takıntısı olan bir 3D artist ve oyun geliştiricisiyim. Nesne modellemiyorum; ağırlık, tarih ve ışık taşıyan yüzeyler inşa ediyorum. Yüksek detaylı araç sanatından Unreal Engine 5'teki interaktif ortamlara kadar, çalışmalarım teknik hassasiyet ile ham görsel etki arasındaki noktada duruyor.",
+    about_bio: "Ben Ahmet Karameşe, hard surface takıntısı olan bir 3D artist ve oyun geliştiricisiyim. Nesne modellemiyorum; ağırlık, tarih ve ışık taşıyan yüzeyler inşa ediyorum. Yüksek detaylı araç sanatından Unreal Engine 5'teki interaktif ortamlara kadar, çalışmalarım teknik hassasiyet ile ham görsel etki arasındaki noktada duruyor.",
     featured_badge: '▶ Aktif Proje',
     featured_intro: 'Şu an Unreal Engine 5 ile geliştiriyorum:',
     feat_1: 'Chaos Vehicles sistemi ile gerçekçi araç fiziği simülasyonları',
@@ -1086,6 +1154,29 @@ document.getElementById('nav-work').addEventListener('click', e => {
 document.querySelector('.logo').addEventListener('click', e => {
   e.preventDefault();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ── MOBILE WORK SCROLL ──
+document.getElementById('mob-work').addEventListener('click', e => {
+  e.preventDefault();
+  closeMobileMenu();
+  document.getElementById('work').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+// ── HAMBURGER ──
+function closeMobileMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+// Close mobile menu when modal opens
+document.querySelectorAll('#mobile-menu [data-modal]').forEach(el => {
+  el.addEventListener('click', () => closeMobileMenu());
 });
 
 // ── EMAIL (bypass GitHub Pages protection) ──
