@@ -731,7 +731,7 @@
   <div class="footer-left">© 2026 Ahmet Karamese</div>
   <div class="footer-links">
     <a href="https://www.artstation.com/ahmetkaramese" target="_blank">ArtStation</a>
-    <a href="/cdn-cgi/l/email-protection#ea8bc4818b988b878f998faa82859e878b8386c4898587">Email</a>
+    <a href="#" id="footer-email">Email</a>
     <a href="https://www.instagram.com/karamese.0" target="_blank">Instagram</a>
   </div>
 </footer>
@@ -812,7 +812,7 @@
           <span class="contact-link-icon">✉</span>
           <div>
             <div class="contact-link-label" data-i18n="contact_email_label">Email</div>
-            <div class="contact-link-val" id="email-val"><span class="__cf_email__" data-cfemail="d1b0ffbab0a3b0bcb4a2b491b9bea5bcb0b8bdffb2bebc">[email&#160;protected]</span></div>
+            <div class="contact-link-val" id="email-val"></div>
           </div>
         </a>
         <a href="tel:+905079574220" class="contact-link">
@@ -863,7 +863,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── i18n ──
 const i18n = {
   en: {
@@ -1184,11 +1184,14 @@ document.querySelectorAll('#mobile-menu [data-modal]').forEach(el => {
 // ── EMAIL (bypass GitHub Pages protection) ──
 (function() {
   const u = 'a.karamese', d = 'hotmail.com';
-  const el = document.getElementById('email-link');
-  if (el) {
-    el.href = 'mailto:' + u + '@' + d;
-    document.getElementById('email-val').textContent = u + '@' + d;
-  }
+  const mailto = 'mailto:' + u + '@' + d;
+  const display = u + '@' + d;
+  const modal = document.getElementById('email-link');
+  if (modal) { modal.href = mailto; }
+  const val = document.getElementById('email-val');
+  if (val) { val.textContent = display; }
+  const footer = document.getElementById('footer-email');
+  if (footer) { footer.href = mailto; }
 })();
 
 // ── INIT ──
