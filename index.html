@@ -53,12 +53,12 @@
     }
     .logo span { color: var(--accent); }
 
-    nav { display: flex; align-items: center; gap: 32px; }
+    nav { display: flex; align-items: center; gap: 40px; }
     nav a, nav button.nav-modal-btn {
       color: var(--muted);
       text-decoration: none;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       transition: color 0.2s;
     }
@@ -70,6 +70,7 @@
       cursor: pointer;
       padding: 0;
     }
+    .nav-links { display: flex; align-items: center; gap: 40px; }
 
     /* ── HERO ── */
     .hero {
@@ -974,13 +975,14 @@ async function loadProjects() {
       if (p.videos) {
         for (let n = 1; n <= p.videos; n++) images.push(`${base}/${n}.mp4`);
       }
+      const allImages = [`${base}/cover`, ...images];
       return {
         id: i + 1,
         title: p.title,
         category: p.category,
         year: String(p.year),
         cover: `${base}/cover`,
-        images
+        images: allImages
       };
     });
 
